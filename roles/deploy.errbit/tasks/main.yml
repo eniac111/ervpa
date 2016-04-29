@@ -1,0 +1,38 @@
+- name: GIT clone errbit repository
+  git: repo={{ githuburl }} dest={{ errbithome }}
+
+- name: Install Bundler
+  command: /usr/bin/gem2.1 install bundler
+
+- name: Bundle install
+  command: /usr/local/bin/bundle install
+  args:
+    chdir: '{{ errbithome }}'
+  register: bundleout
+
+- debug: msg= '{{ bundleout.stdout }}'
+
+- name: Bundle exec
+  command: /usr/local/bin/bundle exec rake errbit:bootstrap
+  args:
+    chdir: '{{ errbithome }}'
+  environment:
+    MONGO_URL: "mongodb://errbit:{{ mongo_passwd }}@127.0.0.1:27017/admin"
+#  register: dbing
+
+#- debug: msg= '{{ dbing.stdout }}'
+
+
+- name: Copy the init script
+  - copy: src=errbit-init.sh dest=/etc/init.d/errbit-init.sh owner=root group=root mode=0755
+
+- name: Activate the init script
+  - command: /usr/sbin/update-rc.d -f errbit defaults
+  register: updatercdbg
+
+-debug: msg = '{{ updatercdbg.stdout }}'
+
+-name: Setup Nginx virtualhost
+  - copy: src=files/errbit-nginx.conf dest=/etc/nginx/sites-enabled/errbit.conf owner=root group=root mode=0755
+  - notify:
+    - restart nginx
