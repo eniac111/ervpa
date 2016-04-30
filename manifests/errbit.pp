@@ -5,7 +5,7 @@ Class['apt::update'] -> Package <| provider == 'apt' |>
 
 $packages = [
 	"nginx",
-	"mongodb-org-shell",
+	"mongodb-org",
 	"ruby2.1",
 	"ruby2.1-dev",
 	"build-essential",
@@ -38,21 +38,19 @@ apt::ppa { 'ppa:brightbox/ruby-ng':
 
 package  { $packages:
     ensure   => installed,
-}->
-
-
-class { '::mongodb::globals':
-	manage_package_repo => 'true',
 } ->
 
-
+class { '::mongodb::globals':
+        manage_package_repo => 'false',
+} ->
 class { '::mongodb::server':
-	bind_ip  => '127.0.0.1',
-	auth => true,
+        bind_ip  => '0.0.0.0',
+        auth => true,
 }
 
-mongodb_user { siteUserAdmin:
-	username      => 'siteUserAdmin',
+
+mongodb_user { errbit:
+	username      => 'errbit',
 	ensure        => present,
 	password_hash =>  mongodb_password('errbit', '12345'),
 	database      => 'admin',

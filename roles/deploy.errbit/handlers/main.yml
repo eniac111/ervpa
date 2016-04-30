@@ -1,5 +1,9 @@
 - name: restart nginx
   service:
-    name: mysql
+    name: nginx
     state: restarted
 
+- name: start errbit
+  service:
+    name: errbit
+    state: started

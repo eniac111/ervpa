@@ -1,5 +1,9 @@
 Vagrant.configure(2) do |config|
 	config.ssh.insert_key = true
+	ENV['LC_ALL']="en_US.UTF-8"
+	config.vm.provider "virtualbox" do |v|
+		v.memory = 2048
+	end
 
 	config.vm.define "errbit" do |errbit|
 		errbit.vm.box = "ubuntu/trusty64"

@@ -1,0 +1,13 @@
+# errbit
+
+description     "Errbit errors collector"
+author          "Blagovest Petrov <blagovest@petrovs.info>"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 3 12
+
+exec /usr/local/bin/starterrbit
+

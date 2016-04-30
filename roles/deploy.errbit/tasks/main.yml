@@ -10,29 +10,43 @@
     chdir: '{{ errbithome }}'
   register: bundleout
 
-- debug: msg= '{{ bundleout.stdout }}'
+#- debug: msg= '{{ bundleout.stdout }}'
 
 - name: Bundle exec
   command: /usr/local/bin/bundle exec rake errbit:bootstrap
   args:
     chdir: '{{ errbithome }}'
   environment:
-    MONGO_URL: "mongodb://errbit:{{ mongo_passwd }}@127.0.0.1:27017/admin"
-#  register: dbing
+    #MONGO_URL: "mongodb://errbit:{{ mongo_passwd }}@127.0.0.1:27017/admin"
+    MONGO_URL: "mongodb://errbit:12345@127.0.0.1:27017/admin"
+  register: dbing
 
-#- debug: msg= '{{ dbing.stdout }}'
+- debug: msg= '{{ dbing.stdout }}'
 
+- name: Write bundle log
+  copy:
+    content: '{{ dbing }}'
+    dest: '/home/vagrant/bundle.log'
 
 - name: Copy the init script
-  - copy: src=errbit-init.sh dest=/etc/init.d/errbit-init.sh owner=root group=root mode=0755
+  copy: src=errbit-init dest=/etc/init/errbit.conf owner=root group=root mode=0755
 
-- name: Activate the init script
-  - command: /usr/sbin/update-rc.d -f errbit defaults
-  register: updatercdbg
+- name: Copy the startup script
+  copy: src=starterrbit dest=/usr/local/bin/starterrbit owner=root group=root mode=0755
 
--debug: msg = '{{ updatercdbg.stdout }}'
+- name: MongoDB init script hack
+  lineinfile: dest=/etc/init/mongod.conf
+    regexp='pre-start script'
+    insertafter='^pre-start script'
+    line='pre-start script\n touch /var/run/mongod.pid && chmod 0777 /var/run/mongod.pid'
+    state=present
+  notify: start errbit
 
--name: Setup Nginx virtualhost
-  - copy: src=files/errbit-nginx.conf dest=/etc/nginx/sites-enabled/errbit.conf owner=root group=root mode=0755
-  - notify:
-    - restart nginx
+#- debug: msg= '{{ updatercdbg.stdout }}'
+
+- name: Delete default Nginx config
+  file: path=/etc/nginx/sites-enabled/default state=absent
+    
+- name: Setup Nginx virtualhost
+  copy: src=files/nginx-errbit.conf dest=/etc/nginx/sites-enabled/errbit.conf owner=root group=root mode=0755
+  notify: restart nginx
