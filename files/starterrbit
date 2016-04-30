@@ -1,6 +1,6 @@
 #!/bin/bash
 PWD="/home/vagrant/errbit"
-export MONGO_URL="mongodb://errbit:12345@192.168.50.5:27017/admin"
+export MONGO_URL="mongodb://siteUserAdmin:12345@192.168.50.5:27017/admin"
 cd $PWD
 sudo nohup bundle exec rails server &
 sleep 10

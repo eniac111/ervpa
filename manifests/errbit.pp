@@ -48,13 +48,3 @@ class { '::mongodb::server':
         auth => true,
 }
 
-
-mongodb_user { errbit:
-	username      => 'errbit',
-	ensure        => present,
-	password_hash =>  mongodb_password('errbit', '12345'),
-	database      => 'admin',
-	roles         => [ 'readWrite', 'userAdmin', 'dbOwner', 'dbAdmin','userAdminAnyDatabase'],
-	tries         => 5,
-	require       => Class['mongodb::server'],
-}
