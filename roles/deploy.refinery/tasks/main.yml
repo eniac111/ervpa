@@ -1,0 +1,20 @@
+#- name: GIT clone refinery repository
+#  git: repo={{ githuburl }} dest={{ refineryhome }}
+
+- name: Install Bundler
+  command: /usr/bin/gem2.0 install bundler
+
+- name: Install Rails
+  command: /usr/bin/gem2.0 install rails --version 4.2.4 --no-ri --no-rdoc
+
+- name: Install Refinery
+  command: /usr/bin/gem2.0 install refinerycms
+
+- name: Deploy a new Refinery instance
+  command: /usr/local/bin/rails new rickrockstar -m http://refinerycms.com/t/3.0.3
+  args:
+    chdir: /home/vagrant 
+
+- name: Copy the init script
+  copy: src=refinery-init dest=/etc/init/refinery.conf owner=root group=root mode=0755
+  notify: start refinery

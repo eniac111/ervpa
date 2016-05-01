@@ -16,9 +16,6 @@
   command: /usr/local/bin/bundle exec rake errbit:bootstrap
   args:
     chdir: '{{ errbithome }}'
-  environment:
-    #MONGO_URL: "mongodb://errbit:{{ mongo_passwd }}@127.0.0.1:27017/admin"
-    #MONGO_URL: "mongodb://siteUserAdmin:12345@127.0.0.1:27017/admin"
   register: dbing
 
 - debug: msg= '{{ dbing.stdout }}'
