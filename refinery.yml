@@ -3,7 +3,7 @@
   sudo: yes
   gather_facts: False
   vars: 
-   refineryhome: /home/vagrant/refinery
-   githuburl: 'https://github.com/refinery/refinerycms.git'
+   deploy_refinery_homedir: /home/vagrant/refinery
+   deploy_refinery_githuburl: 'https://github.com/refinery/refinerycms.git'
   roles:
     - { role: deploy.refinery}

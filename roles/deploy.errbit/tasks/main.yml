@@ -7,15 +7,13 @@
 - name: Bundle install
   command: /usr/local/bin/bundle install
   args:
-    chdir: '{{ errbithome }}'
+    chdir: '{{ deploy_errbit_homedir }}'
   register: bundleout
-
-#- debug: msg= '{{ bundleout.stdout }}'
 
 - name: Bundle exec
   command: /usr/local/bin/bundle exec rake errbit:bootstrap
   args:
-    chdir: '{{ errbithome }}'
+    chdir: '{{ deploy_errbit_homedir }}'
   register: dbing
 
 - debug: msg= '{{ dbing.stdout }}'
@@ -38,8 +36,6 @@
     line='pre-start script\n touch /var/run/mongod.pid && chmod 0777 /var/run/mongod.pid'
     state=present
   notify: start errbit
-
-#- debug: msg= '{{ updatercdbg.stdout }}'
 
 - name: Delete default Nginx config
   file: path=/etc/nginx/sites-enabled/default state=absent

@@ -1,3 +1,3 @@
-errbithome: '/home/vagrant/errbit'
-githuburl: 'https://github.com/errbit/errbit.git'
-mongo_passwd: "12345"
+deploy_errbit_homedir: '/home/vagrant/errbit'
+deploy_errbit_githuburl: 'https://github.com/errbit/errbit.git'
+deploy_errbit_mongo_passwd: "12345"

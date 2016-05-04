@@ -1,6 +1,3 @@
-#- name: GIT clone refinery repository
-#  git: repo={{ githuburl }} dest={{ refineryhome }}
-
 - name: Install Bundler
   command: /usr/bin/gem2.0 install bundler
 

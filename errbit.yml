@@ -3,7 +3,7 @@
   sudo: yes
   gather_facts: False
   vars: 
-   errbithome: /home/vagrant/errbit
-   githuburl: 'https://github.com/errbit/errbit.git'
+   deploy_errbit_homedir: /home/vagrant/errbit
+   deploy_errbit_githuburl: 'https://github.com/errbit/errbit.git'
   roles:
-    - { role: deploy.errbit, mongo_passwd: '12345'}
+    - { role: deploy.errbit, deploy_errbit_mongo_passwd: '12345'}
