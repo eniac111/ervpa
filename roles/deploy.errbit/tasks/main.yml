@@ -1,5 +1,15 @@
 - name: GIT clone errbit repository
-  git: repo={{ githuburl }} dest={{ errbithome }}
+  git: repo={{ deploy_errbit_githuburl }}
+       dest={{ deploy_errbit_homedir }}
+       version=d533719
+
+- name: MongoDB init script hack
+  lineinfile: dest=/etc/init/mongod.conf
+    regexp='pre-start script'
+    insertafter='^pre-start script'
+    line='pre-start script\n touch /var/run/mongod.pid && chmod 0777 /var/run/mongod.pid'
+    state=present
+  notify: start errbit
 
 - name: Install Bundler
   command: /usr/bin/gem2.1 install bundler
@@ -28,14 +38,6 @@
 
 - name: Copy the startup script
   copy: src=starterrbit dest=/usr/local/bin/starterrbit owner=root group=root mode=0755
-
-- name: MongoDB init script hack
-  lineinfile: dest=/etc/init/mongod.conf
-    regexp='pre-start script'
-    insertafter='^pre-start script'
-    line='pre-start script\n touch /var/run/mongod.pid && chmod 0777 /var/run/mongod.pid'
-    state=present
-  notify: start errbit
 
 - name: Delete default Nginx config
   file: path=/etc/nginx/sites-enabled/default state=absent

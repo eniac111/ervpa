@@ -27,7 +27,7 @@ apt::source { 'mongodb-ubuntu':
   'server' => 'hkp://keyserver.ubuntu.com:80',
   },
   include  => {
-  'src' => true,
+#  'src' => true,
   'deb' => true,
   }
 } ->

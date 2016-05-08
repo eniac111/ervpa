@@ -5,5 +5,6 @@ RadineryCMS with Errbit, managed with Vagrant, Puppet and Ansible
 
 ```bash
 $ vagrant up
-$ ansible-playbook -vvvv -i lib/vagrant-ansible-inventory.py infrastructure.yml
+$ ansible-playbook -vvvv -i lib/vagrant-ansible-inventory.py errbit.yml
+$ ansible-playbook -vvvv -i lib/vagrant-ansible-inventory.py -e 'deploy_refinery_errbit_apikey=apikey' refinery.yml
 ```

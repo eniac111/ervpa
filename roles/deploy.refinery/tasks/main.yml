@@ -8,9 +8,29 @@
   command: /usr/bin/gem2.0 install refinerycms
 
 - name: Deploy a new Refinery instance
-  command: /usr/local/bin/rails new rickrockstar -m http://refinerycms.com/t/3.0.3
+  command: /usr/local/bin/rails new refinery -m http://refinerycms.com/t/3.0.3
   args:
     chdir: /home/vagrant 
+
+- name: Configure errbit
+  template: src=errbit.j2 dest=/home/vagrant/refinery/config/initializers/errbit.rb
+
+- name: Add Airbrake gem to the gemfile
+  blockinfile:  
+    dest: /home/vagrant/refinery/Gemfile
+    insertafter: "source 'https://rubygems.org'"
+    content: "gem 'airbrake'"
+
+- name: Aff Airbrake to environment.rb
+  blockinfile:
+    dest: /home/vagrant/refinery/config/environment.rb
+    insertafter: "# Initialize the Rails application."
+    content: "config.gem 'airbrake'"
+
+- name: Bundle install airbrake
+  command: /usr/local/bin/bundle install
+  args:
+    chdir: /home/vagrant/refinery
 
 - name: Copy the init script
   copy: src=refinery-init dest=/etc/init/refinery.conf owner=root group=root mode=0755
