@@ -1,9 +1,0 @@
-- name: Errbit Deployment Script
-  hosts: errbit 
-  sudo: yes
-  gather_facts: False
-  vars: 
-   deploy_errbit_homedir: /home/vagrant/errbit
-   deploy_errbit_githuburl: 'https://github.com/errbit/errbit.git'
-  roles:
-    - { role: deploy.errbit, deploy_errbit_mongo_passwd: '12345'}

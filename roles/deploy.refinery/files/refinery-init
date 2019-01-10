@@ -1,4 +1,0 @@
-description "Refinery CMS"
-
-chdir /home/vagrant/refinery
-exec /usr/local/bin/rails server -p 80

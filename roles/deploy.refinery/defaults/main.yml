@@ -1,2 +1,0 @@
-deploy_refinery_homedir: '/home/vagrant/refinery'
-deploy_refinery_githuburl: 'https://github.com/refinery/refinerycms.git'

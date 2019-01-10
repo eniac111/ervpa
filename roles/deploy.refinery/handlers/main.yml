@@ -1,4 +1,0 @@
-- name: start refinery
-  service:
-    name: refinery
-    state: started

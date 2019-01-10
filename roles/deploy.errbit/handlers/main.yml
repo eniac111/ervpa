@@ -1,9 +1,0 @@
-- name: restart nginx
-  service:
-    name: nginx
-    state: restarted
-
-- name: start errbit
-  service:
-    name: errbit
-    state: started

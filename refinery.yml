@@ -1,9 +1,0 @@
-- name: RefineryCMS Deployment Script
-  hosts: refinery 
-  sudo: yes
-  gather_facts: False
-  vars: 
-   deploy_refinery_homedir: /home/vagrant/refinery
-   deploy_refinery_githuburl: 'https://github.com/refinery/refinerycms.git'
-  roles:
-    - { role: deploy.refinery}
